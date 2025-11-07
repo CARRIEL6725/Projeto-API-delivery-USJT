@@ -1,4 +1,4 @@
 package com.delivery_api.Projeto.delivery.API.controller;
 
-public class RestaurantePedido {
+public class RestauranteController {
 }
