@@ -1,17 +1,16 @@
 package com.delivery_api.Projeto.delivery.API.repository;
 
+import com.delivery_api.Projeto.delivery.API.entity.Cliente;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.deliverytech.delivery_api.entity.Cliente;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 @Repository
-public interface ClienteRepository extends JpaRepository <Cliente, Long> {
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    // Buscar cliente por email (método derivado)
+    // Buscar cliente por email
     Optional<Cliente> findByEmail(String email);
 
     // Verificar se email já existe
@@ -20,7 +19,7 @@ public interface ClienteRepository extends JpaRepository <Cliente, Long> {
     // Buscar clientes ativos
     List<Cliente> findByAtivoTrue();
 
-    // Buscar clientes por nome (contendo)
+    // Buscar clientes por nome (contendo parte do nome)
     List<Cliente> findByNomeContainingIgnoreCase(String nome);
-
 }
+

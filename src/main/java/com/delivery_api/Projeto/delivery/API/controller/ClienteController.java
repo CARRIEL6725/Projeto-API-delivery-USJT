@@ -1,26 +1,28 @@
 package com.delivery_api.Projeto.delivery.API.controller;
 
+import com.delivery_api.Projeto.delivery.API.entity.Cliente;
 import com.delivery_api.Projeto.delivery.API.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.*;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
-@CrossOrigin(origin = "*")
+@CrossOrigin(origins = "*")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    /**
-     * Cadastrar novo cliente
-     */
     @PostMapping
-    public ResponseEntity<?> cadastrar(@Valid @RequestBody ClienteResquetDTO cliente) {
+    public ResponseEntity<?> cadastrar(@Validated @RequestBody Cliente cliente) {
         try {
-            ClienteResponseDTO clienteSalvo = clienteService.cadastrar(cliente);
+            Cliente clienteSalvo = clienteService.cadastrar(cliente);
             return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Erro: " + e.getMessage());
@@ -30,18 +32,12 @@ public class ClienteController {
         }
     }
 
-    /**
-     * Listar todos os clientes ativos
-     */
     @GetMapping
     public ResponseEntity<List<Cliente>> listar() {
         List<Cliente> clientes = clienteService.listarAtivos();
         return ResponseEntity.ok(clientes);
     }
 
-    /**
-     * Buscar cliente por ID
-     */
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
         Optional<Cliente> cliente = clienteService.buscarPorId(id);
@@ -53,12 +49,8 @@ public class ClienteController {
         }
     }
 
-    /**
-     * Atualizar cliente
-     */
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id,
-                                       @Validated @RequestBody Cliente cliente) {
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @Validated @RequestBody Cliente cliente) {
         try {
             Cliente clienteAtualizado = clienteService.atualizar(id, cliente);
             return ResponseEntity.ok(clienteAtualizado);
@@ -70,9 +62,6 @@ public class ClienteController {
         }
     }
 
-    /**
-     * Inativar cliente (soft delete)
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> inativar(@PathVariable Long id) {
         try {
@@ -86,18 +75,12 @@ public class ClienteController {
         }
     }
 
-    /**
-     * Buscar clientes por nome
-     */
     @GetMapping("/buscar")
     public ResponseEntity<List<Cliente>> buscarPorNome(@RequestParam String nome) {
         List<Cliente> clientes = clienteService.buscarPorNome(nome);
         return ResponseEntity.ok(clientes);
     }
 
-    /**
-     * Buscar cliente por email
-     */
     @GetMapping("/email/{email}")
     public ResponseEntity<?> buscarPorEmail(@PathVariable String email) {
         Optional<Cliente> cliente = clienteService.buscarPorEmail(email);
