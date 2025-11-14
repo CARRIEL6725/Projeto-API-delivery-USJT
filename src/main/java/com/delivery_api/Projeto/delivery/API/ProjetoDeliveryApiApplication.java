@@ -3,6 +3,7 @@ package com.delivery_api.Projeto.delivery.API;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
 public class ProjetoDeliveryApiApplication {
 
